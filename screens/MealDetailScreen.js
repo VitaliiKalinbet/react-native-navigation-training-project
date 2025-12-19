@@ -1,18 +1,30 @@
-import { useLayoutEffect } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { useLayoutEffect, useState } from 'react';
+import { View, Text, StyleSheet, Image, ScrollView, Pressable } from 'react-native';
 import { MEALS } from '../data/dummy-data';
 import MealDetails from '../components/MealDetails';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function MealDetailScreen({ route, navigation }) {
   const mealId = route.params.mealId;
+  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+
+  const [favoriteMeal, setFavoriteMeal] = useState(false);
+  function toggleFavoriteHandler() {
+    setFavoriteMeal(prevState => !prevState);
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: mealId,
+      title: selectedMeal.title,
+      headerRight: () => {
+        return (
+          <Pressable onPress={toggleFavoriteHandler} style={({ pressed }) => pressed && styles.pressed}>
+            <Ionicons name="star" size={24} color={favoriteMeal ? 'yellow' : 'black'} />
+          </Pressable>
+        );
+      },
     });
-  }, [mealId, navigation]);
-
-  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+  }, [selectedMeal, navigation]);
 
   return (
     <ScrollView style={styles.container}>
@@ -75,5 +87,8 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 8,
     backgroundColor: '#ccc',
+  },
+  pressed: {
+    opacity: 0.7,
   },
 });

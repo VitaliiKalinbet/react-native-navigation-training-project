@@ -20,7 +20,7 @@ export default function MealsOverviewScreen({ route, navigation }) {
 
   function renderMealItem(itemData) {
     return (
-      <MealItem title={itemData.item.title} imageUrl={itemData.item.imageUrl} affordability={itemData.item.affordability} complexity={itemData.item.complexity} duration={itemData.item.duration} id={itemData.item.id} navigation={navigation} />
+      <MealItem title={itemData.item.title} imageUrl={itemData.item.imageUrl} affordability={itemData.item.affordability} complexity={itemData.item.complexity} duration={itemData.item.duration} id={itemData.item.id} />
     );
   }
 

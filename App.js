@@ -1,10 +1,14 @@
-import { StyleSheet } from 'react-native';
+import {
+  StyleSheet,
+  // Pressable
+} from 'react-native';
 import CategoriesScreen from './screens/CategoriesScreen';
 import MealsOverviewScreen from './screens/MealsOverviewScreen';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MealDetailScreen from './screens/MealDetailScreen';
+// import { Ionicons } from '@expo/vector-icons';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +41,15 @@ export default function App() {
           />
           <Stack.Screen name="MealDetail"
             component={MealDetailScreen}
+            // options={{
+            //   headerRight: () => {
+            //     return (
+            //       <Pressable onPress={() => {}}>
+            //         <Ionicons name="star" size={24} color="black" />
+            //       </Pressable>
+            //     );
+            //   },
+            // }}
           />
         </Stack.Navigator>
       </NavigationContainer>
