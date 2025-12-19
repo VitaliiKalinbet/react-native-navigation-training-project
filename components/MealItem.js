@@ -1,15 +1,27 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
 
 export default function MealItem({ title, imageUrl, affordability, complexity, duration }) {
   return (
     <View style={styles.mealItem}>
-      <Image source={{ uri: imageUrl }} style={styles.image} />
-      <Text style={styles.title}>{title}</Text>
-      <View style={styles.details}>
-        <Text style={styles.detailItem}>{duration}m</Text>
-        <Text style={styles.detailItem}>{complexity.toUpperCase()}</Text>
-        <Text style={styles.detailItem}>{affordability.toUpperCase()}</Text>
-      </View>
+      <Pressable android_ripple={{ color: '#ccc' }} style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}>
+        <View style={styles.imageContainer}>
+          <Image 
+            source={{ 
+              uri: imageUrl,
+              headers: {
+                'User-Agent': 'Mozilla/5.0',
+              },
+            }} 
+            style={styles.image} 
+          />
+        </View>
+        <Text style={styles.title}>{title}</Text>
+        <View style={styles.details}>
+          <Text style={styles.detailItem}>{duration}m</Text>
+          <Text style={styles.detailItem}>{complexity.toUpperCase()}</Text>
+          <Text style={styles.detailItem}>{affordability.toUpperCase()}</Text>
+        </View>
+      </Pressable>
     </View>
   );
 }
@@ -21,9 +33,15 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: 'white',
   },
-  image: {
+  imageContainer: {
     width: '100%',
     height: 200,
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
   },
   title: {
     fontSize: 18,
@@ -39,5 +57,11 @@ const styles = StyleSheet.create({
   detailItem: {
     marginHorizontal: 4,
     fontSize: 12,
+  },
+  button: {
+    flex: 1,
+  },
+  buttonPressed: {
+    opacity: 0.5,
   },
 });
