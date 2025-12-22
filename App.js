@@ -8,11 +8,58 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MealDetailScreen from './screens/MealDetailScreen';
-// import { Ionicons } from '@expo/vector-icons';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import FavoritesScreen from './screens/FavoritesScreen';
+import { Ionicons } from '@expo/vector-icons';
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
-export default function App() {
+function DrawerNavigator() {
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+      headerTitleAlign: 'center',
+      sceneContainerStyle: {
+        backgroundColor: '#3f2f25',
+        },
+        drawerContentStyle: {
+          backgroundColor: '#3f2f25',
+        },
+        drawerActiveBackgroundColor: '#f5428d',
+        drawerActiveTintColor: '#ffffff',
+        drawerInactiveTintColor: '#ffffff',
+        drawerLabelStyle: {
+          fontSize: 16,
+          fontWeight: 'bold',
+        },
+        drawerIcon: ({ color, size }) => {
+          return <Ionicons name="list" color={color} size={size} />
+        },
+      }}
+    >
+      <Drawer.Screen
+        name="Categories"
+        component={CategoriesScreen}
+        options={{
+          title: 'All Categories',
+        }}
+      />
+      <Drawer.Screen
+        name="Favorites"
+        component={FavoritesScreen}
+        options={{
+          title: 'My Favorites',
+          drawerIcon: ({ color, size }) => {
+            return <Ionicons name="star" color={color} size={size} />
+          },
+        }}
+      />
+    </Drawer.Navigator>
+  );
+}
+
+export default function App() { 
   return (
     <>
       <StatusBar style="dark" />
@@ -23,10 +70,10 @@ export default function App() {
           // headerTintColor: '#ffffff',
           headerTitleAlign: 'center',
         }}>
-          <Stack.Screen name="MealsCategories"
-            component={CategoriesScreen}
+          <Stack.Screen name="DrawerScreen"
+            component={DrawerNavigator}
             options={{
-              title: 'All Categories',
+              headerShown: false,
               // headerStyle: { backgroundColor: '#24180f' },
               // headerTintColor: '#ffffff',
               // headerTitleAlign: 'center',
