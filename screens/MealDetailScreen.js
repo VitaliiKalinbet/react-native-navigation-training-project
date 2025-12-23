@@ -1,17 +1,29 @@
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useContext, useCallback } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, Pressable } from 'react-native';
 import { MEALS } from '../data/dummy-data';
 import MealDetails from '../components/MealDetails';
 import { Ionicons } from '@expo/vector-icons';
+// import { FavoritesContext } from '../store/context/favorites-context';
+import { useSelector, useDispatch } from 'react-redux';
+import { addFavorite, removeFavorite } from '../store/redux/favorites';
 
 export default function MealDetailScreen({ route, navigation }) {
   const mealId = route.params.mealId;
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+  // const favoritesContext = useContext(FavoritesContext);
+  const dispatch = useDispatch();
+  const favorites = useSelector((state) => state.favoriteMealIds.favorites);
+  const mealIsFavorite = favorites.includes(mealId);
 
-  const [favoriteMeal, setFavoriteMeal] = useState(false);
-  function toggleFavoriteHandler() {
-    setFavoriteMeal(prevState => !prevState);
-  }
+  const toggleFavoriteHandler = useCallback(() => {
+    if (mealIsFavorite) {
+      // favoritesContext.removeFavorite(mealId);
+      dispatch(removeFavorite({ mealId }));
+    } else {
+      // favoritesContext.addFavorite(mealId);
+      dispatch(addFavorite({ mealId }));
+    }
+  }, [mealIsFavorite, mealId, dispatch, favorites]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -19,12 +31,12 @@ export default function MealDetailScreen({ route, navigation }) {
       headerRight: () => {
         return (
           <Pressable onPress={toggleFavoriteHandler} style={({ pressed }) => pressed && styles.pressed}>
-            <Ionicons name="star" size={24} color={favoriteMeal ? 'yellow' : 'black'} />
+            <Ionicons name={mealIsFavorite ? 'star' : 'star-outline'} size={24} color={mealIsFavorite ? 'yellow' : 'black'} />
           </Pressable>
         );
       },
     });
-  }, [selectedMeal, navigation]);
+  }, [selectedMeal, navigation, mealIsFavorite, toggleFavoriteHandler]);
 
   return (
     <ScrollView style={styles.container}>

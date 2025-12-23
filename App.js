@@ -1,7 +1,7 @@
-import {
-  StyleSheet,
-  // Pressable
-} from 'react-native';
+// import {
+//   StyleSheet,
+//   // Pressable
+// } from 'react-native';
 import CategoriesScreen from './screens/CategoriesScreen';
 import MealsOverviewScreen from './screens/MealsOverviewScreen';
 import { StatusBar } from 'expo-status-bar';
@@ -11,6 +11,9 @@ import MealDetailScreen from './screens/MealDetailScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import FavoritesScreen from './screens/FavoritesScreen';
 import { Ionicons } from '@expo/vector-icons';
+// import FavoritesContextProvider from './store/context/favorites-context';
+import { Provider } from 'react-redux';
+import { store } from './store/redux/store';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -63,52 +66,56 @@ export default function App() {
   return (
     <>
       <StatusBar style="dark" />
-      <NavigationContainer>
-        <Stack.Navigator
-        screenOptions={{
-          // headerStyle: { backgroundColor: '#24180f' },
-          // headerTintColor: '#ffffff',
-          headerTitleAlign: 'center',
-        }}>
-          <Stack.Screen name="DrawerScreen"
-            component={DrawerNavigator}
-            options={{
-              headerShown: false,
-              // headerStyle: { backgroundColor: '#24180f' },
-              // headerTintColor: '#ffffff',
-              // headerTitleAlign: 'center',
-            }} />
-          <Stack.Screen name="MealsOverview"
-            component={MealsOverviewScreen}
-            // options={({ route }) => {
-            //   return {
-            //     title: route.params.categoryId,
-            //   }
-            // }}
-          />
-          <Stack.Screen name="MealDetail"
-            component={MealDetailScreen}
-            // options={{
-            //   headerRight: () => {
-            //     return (
-            //       <Pressable onPress={() => {}}>
-            //         <Ionicons name="star" size={24} color="black" />
-            //       </Pressable>
-            //     );
-            //   },
-            // }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      {/* <FavoritesContextProvider> */}
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator
+          screenOptions={{
+            // headerStyle: { backgroundColor: '#24180f' },
+            // headerTintColor: '#ffffff',
+            headerTitleAlign: 'center',
+          }}>
+            <Stack.Screen name="DrawerScreen"
+              component={DrawerNavigator}
+              options={{
+                headerShown: false,
+                // headerStyle: { backgroundColor: '#24180f' },
+                // headerTintColor: '#ffffff',
+                // headerTitleAlign: 'center',
+              }} />
+            <Stack.Screen name="MealsOverview"
+              component={MealsOverviewScreen}
+              // options={({ route }) => {
+              //   return {
+              //     title: route.params.categoryId,
+              //   }
+              // }}
+            />
+            <Stack.Screen name="MealDetail"
+              component={MealDetailScreen}
+              // options={{
+              //   headerRight: () => {
+              //     return (
+              //       <Pressable onPress={() => {}}>
+              //         <Ionicons name="star" size={24} color="black" />
+              //       </Pressable>
+              //     );
+              //   },
+              // }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
+      {/* </FavoritesContextProvider> */}
     </>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#ffffff',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+// });
